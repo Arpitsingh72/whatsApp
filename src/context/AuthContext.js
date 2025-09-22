@@ -1,19 +1,37 @@
-import { createContext, useState, useEffect } from 'react';
-import { getToken, removeToken, saveToken } from '../services/authServices.js';
+
+import React, { createContext, useState, useEffect } from 'react';
+import {jwtDecode} from 'jwt-decode';
 
 export const AuthContext = createContext();
 
+
 export const AuthProvider = ({ children }) => {
-  const [token, setTokenState] = useState(getToken());
+  const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [user, setUser] = useState(null);
 
-  const setToken = (token) => {
-    setTokenState(token);
-    token ? saveToken(token) : removeToken();
+  useEffect(() => {
+    if (token && typeof token === 'string') {
+      try {
+        const decoded = jwtDecode(token);
+        setUser(decoded.user); // assuming your backend encodes { user: {...} }
+      } catch (err) {
+        console.error('Failed to decode token:', err);
+        setUser(null);
+        saveToken(null); // clear invalid token
+      }
+    } else {
+      setUser(null);
+    }
+  }, [token]);
+
+  const saveToken = (t) => {
+    setToken(t);
+    if (t) localStorage.setItem('token', t);
+    else localStorage.removeItem('token');
   };
 
   return (
-    <AuthContext.Provider value={{ token, setToken, user, setUser }}>
+    <AuthContext.Provider value={{ token, setToken: saveToken, user }}>
       {children}
     </AuthContext.Provider>
   );

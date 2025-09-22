@@ -1,3 +1,4 @@
+
 const API_URL = 'http://localhost:8000/api';
 
 /**
@@ -9,62 +10,63 @@ export const login = async (credentials) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
   });
-  return res.json().then((data) => {
-    if (!res.ok) throw new Error(data.message || 'Login failed');
-    return data;
-  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Login failed');
+  return data;
 };
 
-
+/**
+ * Step 1: Request OTP
+ */
 export const requestOtp = async (payload) => {
   const res = await fetch(`${API_URL}/register/request-otp`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload), // { name, phone }
+    body: JSON.stringify(payload), // { phone }
   });
-
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || 'Failed to request OTP');
   return data;
 };
 
+/**
+ * Step 2: Verify OTP
+ */
 export const verifyOtp = async (payload) => {
   const res = await fetch(`${API_URL}/register/verify-otp`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload), // { phone, otp }
   });
-
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || 'OTP verification failed');
   return data;
 };
 
 /**
- * POST /register
+ * Step 3: Set Password (final registration step)
  */
-export const register = async (credentials) => {
-  const res = await fetch(`${API_URL}/register`, {
+export const setPassword = async (payload) => {
+  const res = await fetch(`${API_URL}/register/set-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
+    body: JSON.stringify(payload), // { phone, password }
   });
-  return res.json().then((data) => {
-    if (!res.ok) throw new Error(data.message || 'Registration failed');
-    return data;
-  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Failed to set password');
+  return data;
 };
 
 /**
  * GET /profile
  */
 export const getProfile = async (token) => {
+  console.log(token,"token")
   const res = await fetch(`${API_URL}/profile`, {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
   });
-  return res.json().then((data) => {
-    if (!res.ok) throw new Error(data.message || 'Failed to fetch profile');
-    return data;
-  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Failed to fetch profile');
+  return data;
 };

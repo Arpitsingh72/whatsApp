@@ -1,0 +1,36 @@
+.navbar-container{
+  display: flex;
+justify-content: space-between;
+background-color: #111B21;
+height: 55px;
+
+    .navbar-header-name{
+        display: flex;
+        padding: 17px;
+        justify-content: center;
+        color: grey;
+    }
+    .user-info-details{
+        padding-top: 20px;
+        padding-right: 20px;
+        color: grey;
+    }
+}
+.navbarOne-all-info{
+    display: flex;
+    flex-direction: column;
+    background-color: #202c33;
+    gap: 20px;
+    width: 58px;
+    padding: 8px;
+    .navbarOne-setting-container{
+      padding-top: 505px;
+    }
+    
+    .navbar-icon {
+        width: 30px;   // adjust as needed
+        height: 30px;
+        object-fit: contain; // keeps proportions
+        cursor: pointer;     // optional, makes it look clickable
+      }
+}

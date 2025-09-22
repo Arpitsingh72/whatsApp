@@ -1,0 +1,18 @@
+.sidebar-container{
+    display: flex;
+    flex-direction: column;
+    background-color: #0b141a;
+    width: 310px;
+    padding: 10px 10px;
+    .sidebar-header{
+        display: flex;
+        color: grey;
+    }
+    .user-list-main-container{
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        color: white;
+    }
+}

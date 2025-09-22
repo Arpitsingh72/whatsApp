@@ -1,0 +1,26 @@
+/* src/pages/Chat.css */
+.chat-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: sans-serif;
+  }
+  
+  .chat-container {
+    display: flex;
+    flex: 1;
+  }
+  
+  .sidebar {
+    width: 250px;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+  }
+  
+  .chat-window {
+    flex: 1;
+    padding: 10px;
+  }
+
+  
